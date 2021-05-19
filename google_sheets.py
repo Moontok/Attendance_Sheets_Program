@@ -7,7 +7,7 @@ def main() -> None:
     # Parameters
     start_date_range = datetime(2020, 1, 1)
     end_date_range = datetime(2021, 2, 21)
-    # Use 'All' to search for every training
+    # Use 'All' for training_title to search for every training.
     training_title = 'Advanced Python Programming - High School CS Professional Development'
     last_cell_of_input_spreadsheet= 'g3443'
     input_spreadsheet_id = '1dZaKc6q3aZM5gPiH1ciKqEeFw6i3DNNvayTagDgUZnY'
