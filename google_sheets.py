@@ -7,19 +7,19 @@ from operator import itemgetter
 def main() -> None:
 
     # Parameters
-    start_date_range = datetime(2021, 6, 8)
-    end_date_range = datetime(2021, 6, 9)
+    start_date_range: object = datetime(2021, 6, 7)
+    end_date_range: object = datetime(2021, 6, 10)
     # Use 'All' for training_title to search for every training.
-    training_title = 'High School Computer Science and Certification Preparation (30 hours)'
-    first_cell_of_input_spreadsheet = 'a'
-    last_cell_of_input_spreadsheet= 'g'
-    sheet_name = 'Form Responses 1'
-    input_spreadsheet_id = '10Gl4V7Xa1sx2jBDo0q5av9mow__XvAvxZ_LmhKwndzQ'
-    output_spreadsheet_id = '1nYTi7s1VDFXsqupYs7ZPe_9_SrDL2hAAI_i0jnEB5hw'
+    training_title: str = 'High School Computer Science and Certification Preparation (30 hours)'
+    first_cell_of_input_spreadsheet: str = 'a'
+    last_cell_of_input_spreadsheet: str = 'g'
+    sheet_name: str = 'Form Responses 1'
+    input_spreadsheet_id: str = '10Gl4V7Xa1sx2jBDo0q5av9mow__XvAvxZ_LmhKwndzQ'
+    output_spreadsheet_id: str = '1nYTi7s1VDFXsqupYs7ZPe_9_SrDL2hAAI_i0jnEB5hw'
 
     # Credentials
-    service_account_file= 'need_info.json'
-    g_scopes= ['https://www.googleapis.com/auth/spreadsheets']
+    service_account_file: str = 'need_info.json'
+    g_scopes: list = ['https://www.googleapis.com/auth/spreadsheets']
 
     creds = None
     creds = service_account.Credentials.from_service_account_file(
