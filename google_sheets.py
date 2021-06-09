@@ -1,16 +1,20 @@
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 from datetime import datetime
+from collections import OrderedDict
+from operator import itemgetter
 
 def main() -> None:
 
     # Parameters
-    start_date_range = datetime(2020, 1, 1)
-    end_date_range = datetime(2021, 2, 21)
+    start_date_range = datetime(2021, 6, 8)
+    end_date_range = datetime(2021, 6, 9)
     # Use 'All' for training_title to search for every training.
-    training_title = 'Advanced Python Programming - High School CS Professional Development'
-    last_cell_of_input_spreadsheet= 'g3443'
-    input_spreadsheet_id = '1dZaKc6q3aZM5gPiH1ciKqEeFw6i3DNNvayTagDgUZnY'
+    training_title = 'High School Computer Science and Certification Preparation (30 hours)'
+    first_cell_of_input_spreadsheet = 'a'
+    last_cell_of_input_spreadsheet= 'g'
+    sheet_name = 'Form Responses 1'
+    input_spreadsheet_id = '10Gl4V7Xa1sx2jBDo0q5av9mow__XvAvxZ_LmhKwndzQ'
     output_spreadsheet_id = '1nYTi7s1VDFXsqupYs7ZPe_9_SrDL2hAAI_i0jnEB5hw'
 
     # Credentials
@@ -28,7 +32,7 @@ def main() -> None:
 
     # Reading values from the spreadsheet
     result_of_read = sheet.values().get(spreadsheetId=input_spreadsheet_id,
-                                range=f'Sheet1!a1:{last_cell_of_input_spreadsheet}').execute()
+                                range=f'{sheet_name}!{first_cell_of_input_spreadsheet}:{last_cell_of_input_spreadsheet}').execute()
     
     values = result_of_read.get('values', [])
 
@@ -37,7 +41,7 @@ def main() -> None:
 
 def generate_output_spreadsheet(values, sheet, start_date_range, end_date_range, output_spreadsheet_id, training_title) -> None:
     
-    values_to_write = [[], [values[0][3], values[0][4], values[0][1], values[0][2], values[0][0]]]
+    values_to_write = [[], [values[0][4], values[0][3], values[0][1], values[0][2], values[0][0]]]
     participants_dict = {}
 
     # Removing Column headers
@@ -86,7 +90,7 @@ def process_data_for_records(values, start_date_range, end_date_range, training_
 
             if timestamp >= start_date_range and timestamp <= end_date_range:
                 # Generate a possible key combination that is '<training name><participant last name><participant first name>'
-                possible_key = f'{line[2].upper()}{line[4].upper()}{line[3].upper()}'
+                possible_key = f'{line[2].strip().upper()}{line[4].strip().upper()}{line[3].strip().upper()}'
 
                 # Check if the key is in the dictionary and has the same training.
                 if possible_key in participants_dict:
@@ -98,7 +102,9 @@ def process_data_for_records(values, start_date_range, end_date_range, training_
                     # Create a new key entry with the info: [last_name, first_name, email, training, first_timestamp]
                     participants_dict[possible_key] = [line[4], line[3], line[1], line[2], line[0]]
 
-    return participants_dict
+    sorted_participants_dict = OrderedDict(sorted(participants_dict.items(), key=itemgetter(1)))
+    
+    return sorted_participants_dict 
 
 if __name__ == '__main__':
     main()
