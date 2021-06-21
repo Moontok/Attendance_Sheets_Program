@@ -7,10 +7,10 @@ from operator import itemgetter
 def main() -> None:
 
     # Parameters
-    start_date_range: object = datetime(2021, 6, 7)
-    end_date_range: object = datetime(2021, 6, 10)
+    start_date_range: object = datetime(2021, 6, 14)
+    end_date_range: object = datetime(2021, 6, 20)
     # Use 'All' for training_title to search for every training.
-    training_title: str = 'High School Computer Science and Certification Preparation (30 hours)'
+    training_title: str = 'Arkansas Computer Science and Computing Educator Academy'
     first_cell_of_input_spreadsheet: str = 'a'
     last_cell_of_input_spreadsheet: str = 'g'
     sheet_name: str = 'Form Responses 1'
@@ -90,7 +90,9 @@ def process_data_for_records(values, start_date_range, end_date_range, training_
 
             if timestamp >= start_date_range and timestamp <= end_date_range:
                 # Generate a possible key combination that is '<training name><participant last name><participant first name>'
-                possible_key = f'{line[2].strip().upper()}{line[4].strip().upper()}{line[3].strip().upper()}'
+                #possible_key = f'{line[2].strip().upper()}{line[4].strip().upper()}{line[3].strip().upper()}'
+                # Generate a possible key combination that is '<training name><participant email>'
+                possible_key = f'{line[2].strip().upper()}{line[1].strip().upper()}'
 
                 # Check if the key is in the dictionary and has the same training.
                 if possible_key in participants_dict:
