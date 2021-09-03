@@ -11,10 +11,8 @@ def main() -> None:
     start_date_range: object = datetime(2021, 5, 1)
     end_date_range: object = datetime(2021, 9, 1)
     # Use 'All' for training_title to search for every training.
-    training_title: str = 'Advanced Python Programming - High School CS Professional Development'
-    # training_title: str = "All"
-    first_cell_of_input_spreadsheet: str = "a"
-    last_cell_of_input_spreadsheet: str = "g"
+    # training_title: str = 'Advanced Python Programming - High School CS Professional Development'
+    training_title: str = "All"
     sheet_name: str = "Form Responses 1"
     input_spreadsheet_id: str = "10Gl4V7Xa1sx2jBDo0q5av9mow__XvAvxZ_LmhKwndzQ"
     output_spreadsheet_id: str = "1nYTi7s1VDFXsqupYs7ZPe_9_SrDL2hAAI_i0jnEB5hw"
@@ -38,7 +36,7 @@ def main() -> None:
         sheet.values()
         .get(
             spreadsheetId=input_spreadsheet_id,
-            range=f"{sheet_name}!{first_cell_of_input_spreadsheet}:{last_cell_of_input_spreadsheet}",
+            range=f"{sheet_name}"
         )
         .execute()
     )
@@ -51,9 +49,7 @@ def main() -> None:
         start_date_range,
         end_date_range,
         output_spreadsheet_id,
-        training_title,
-        first_cell_of_input_spreadsheet,
-        last_cell_of_input_spreadsheet
+        training_title
     )
 
 
@@ -63,9 +59,7 @@ def generate_output_spreadsheet(
     start_date_range,
     end_date_range,
     output_spreadsheet_id,
-    training_title,
-    first_cell_of_input_spreadsheet,
-    last_cell_of_input_spreadsheet
+    training_title
 ) -> None:
 
     values_to_write = [
@@ -111,7 +105,7 @@ def generate_output_spreadsheet(
     # Clear old data
     sheet.values().clear(
         spreadsheetId="1nYTi7s1VDFXsqupYs7ZPe_9_SrDL2hAAI_i0jnEB5hw",
-        range=f"Sheet1!{first_cell_of_input_spreadsheet}:{last_cell_of_input_spreadsheet}"
+        range=f"Sheet1"
     ).execute()
 
     # Writing Section
