@@ -8,14 +8,14 @@ from operator import itemgetter
 def main() -> None:
 
     # Parameters
-    start_date_range: object = datetime(2021, 5, 1)
-    end_date_range: object = datetime(2021, 9, 1)
+    start_date_range: object = datetime(2021, 7, 1)
+    end_date_range: object = datetime(2022, 2, 23)
     # Use 'All' for training_title to search for every training.
-    # training_title: str = 'Advanced Python Programming - High School CS Professional Development'
-    training_title: str = "All"
+    training_title: str = 'All'
+    # training_title: str = "All"
     sheet_name: str = "Form Responses 1"
     input_spreadsheet_id: str = "10Gl4V7Xa1sx2jBDo0q5av9mow__XvAvxZ_LmhKwndzQ"
-    output_spreadsheet_id: str = "1nYTi7s1VDFXsqupYs7ZPe_9_SrDL2hAAI_i0jnEB5hw"
+    output_spreadsheet_id: str = "1IvtmdX6Rch0bys5pa1UZ7J-0IhS4OhVH8HJVXgAp3Dg"
 
     # Credentials
     service_account_file: str = "need_info.json"
@@ -104,7 +104,7 @@ def generate_output_spreadsheet(
 
     # Clear old data
     sheet.values().clear(
-        spreadsheetId="1nYTi7s1VDFXsqupYs7ZPe_9_SrDL2hAAI_i0jnEB5hw",
+        spreadsheetId=output_spreadsheet_id,
         range=f"Sheet1"
     ).execute()
 
