@@ -8,17 +8,17 @@ from operator import itemgetter
 def main() -> None:
 
     # Parameters
-    start_date_range: object = datetime(2021, 7, 1)
-    end_date_range: object = datetime(2022, 2, 23)
+    start_date_range: object = datetime(2022, 6, 12)
+    end_date_range: object = datetime(2022, 6, 18)
     # Use 'All' for training_title to search for every training.
-    training_title: str = 'All'
-    # training_title: str = "All"
+    training_title: str = 'Arkansas Computer Science and Computing Educator Academy'
+
     sheet_name: str = "Form Responses 1"
     input_spreadsheet_id: str = "10Gl4V7Xa1sx2jBDo0q5av9mow__XvAvxZ_LmhKwndzQ"
-    output_spreadsheet_id: str = "1IvtmdX6Rch0bys5pa1UZ7J-0IhS4OhVH8HJVXgAp3Dg"
+    output_spreadsheet_id: str = "1RsqzQ_Jx2q1qYreqKV4UqRM4CUGq4tEDSrGHM5QSinI"
 
     # Credentials
-    service_account_file: str = "need_info.json"
+    service_account_file: str = "google_info.json"
     g_scopes: list = ["https://www.googleapis.com/auth/spreadsheets"]
 
     creds = None
@@ -81,9 +81,12 @@ def generate_output_spreadsheet(
         values, start_date_range, end_date_range, training_title
     )
 
+
+
     training_numbers = {}
 
     for record in participants_dict.values():
+
         values_to_write.append(record)
 
         if record[3] in training_numbers:
@@ -124,6 +127,7 @@ def process_data_for_records(
     This function will create a new entry for a unique participant/training combo or
     it will append a new timestamp to the end of the participant/training combo record.
     """
+
     participants_dict: dict = {}
 
     for line in values:
@@ -132,9 +136,9 @@ def process_data_for_records(
 
             if timestamp >= start_date_range and timestamp <= end_date_range:
                 # Generate a possible key combination that is '<training name><participant last name><participant first name>'
-                # possible_key = f'{line[2].strip().upper()}{line[4].strip().upper()}{line[3].strip().upper()}'
+                possible_key = f'{line[2].strip().upper()}{line[4].strip().upper()}{line[3].strip().upper()}'
                 # Generate a possible key combination that is '<training name><participant email>'
-                possible_key = f"{line[2].strip().upper()}{line[1].strip().upper()}"
+                # possible_key = f"{line[2].strip().upper()}{line[1].strip().upper()}"
 
                 # Check if the key is in the dictionary and has the same training.
                 if possible_key in participants_dict:
