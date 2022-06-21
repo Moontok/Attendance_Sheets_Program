@@ -10,6 +10,20 @@ def main() -> None:
     # Parameters
     start_date_range: object = datetime(2022, 6, 12)
     end_date_range: object = datetime(2022, 6, 25)
+
+    days = [
+        datetime(2022, 6, 13),
+        datetime(2022, 6, 14),
+        datetime(2022, 6, 15),
+        datetime(2022, 6, 16),
+        datetime(2022, 6, 17),
+        datetime(2022, 6, 20),
+        datetime(2022, 6, 21),
+        datetime(2022, 6, 22),
+        datetime(2022, 6, 23),
+        datetime(2022, 6, 24)
+    ]
+
     # Use 'All' for training_title to search for every training.
     training_title: str = 'Arkansas Computer Science and Computing Educator Academy'
 
@@ -49,7 +63,8 @@ def main() -> None:
         start_date_range,
         end_date_range,
         output_spreadsheet_id,
-        training_title
+        training_title,
+        days
     )
 
 
@@ -59,18 +74,26 @@ def generate_output_spreadsheet(
     start_date_range,
     end_date_range,
     output_spreadsheet_id,
-    training_title
+    training_title,
+    days
 ) -> None:
 
-    values_to_write = [
-        [],
-        [
+    header_line = [
             values[0][4],
             values[0][3],
             values[0][1],
-            values[0][2],
-            values[0][0]
-        ],
+            values[0][2]
+    ]
+
+    all_attendance_times = []
+    for day in days:
+        for _ in range(3):
+            header_line.append(day.strftime("%m/%d/%Y"))
+            all_attendance_times.append(day)
+
+    values_to_write = [
+        [],
+        header_line,
     ]
     participants_dict = {}
 
@@ -81,11 +104,28 @@ def generate_output_spreadsheet(
         values, start_date_range, end_date_range, training_title
     )
 
+    formatted_participant_dict = {}
+
+    for participant in participants_dict:
+        formatted_info = participants_dict[participant][:4]
+        participant_times = participants_dict[participant][4:]
+        for time in all_attendance_times:
+            if len(participant_times) != 0:
+                if participant_times[0].date() == time.date():
+                    stamp = participant_times.pop(0).strftime("%m/%d/%Y %H:%M:%S")
+                    formatted_info.append(stamp)
+                elif participant_times[0].date() < time.date():
+                    pass
+                else:
+                    formatted_info.append("------")
+            else:
+                formatted_info.append("")
+        formatted_participant_dict[participant] = formatted_info
 
 
     training_numbers = {}
 
-    for record in participants_dict.values():
+    for record in formatted_participant_dict.values():
 
         values_to_write.append(record)
 
@@ -141,20 +181,21 @@ def process_data_for_records(
                 # possible_key = f"{line[2].strip().upper()}{line[1].strip().upper()}"
 
                 # Check if the key is in the dictionary and has the same training.
-                if possible_key in participants_dict:
-                    # Append the new timestamp, in original form, to the end of the participants current info.
-                    participant_info = participants_dict.get(possible_key)
-                    participant_info.append(line[0])
-                    participants_dict[possible_key] = participant_info
-                else:
+                if possible_key not in participants_dict:
                     # Create a new key entry with the info: [last_name, first_name, email, training, first_timestamp]
+                    
                     participants_dict[possible_key] = [
                         line[4],
                         line[3],
                         line[1],
                         line[2],
-                        line[0],
+                        timestamp,
                     ]
+                else:
+                    # Append the new timestamp, in original form, to the end of the participants current info.
+                    participant_info = participants_dict.get(possible_key)
+                    participant_info.append(timestamp)
+                    participants_dict[possible_key] = participant_info
 
     sorted_participants_dict = OrderedDict(
         sorted(participants_dict.items(), key=itemgetter(1))
