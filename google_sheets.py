@@ -9,7 +9,7 @@ def main() -> None:
 
     # Parameters
     start_date_range: object = datetime(2022, 6, 12)
-    end_date_range: object = datetime(2022, 6, 18)
+    end_date_range: object = datetime(2022, 6, 25)
     # Use 'All' for training_title to search for every training.
     training_title: str = 'Arkansas Computer Science and Computing Educator Academy'
 
