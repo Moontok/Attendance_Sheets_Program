@@ -8,10 +8,10 @@ from operator import itemgetter
 def main() -> None:
 
     # Parameters
-    start_date_range: object = datetime(2022, 6, 12)
-    end_date_range: object = datetime(2022, 6, 25)
+    start_date_range: object = datetime(2023, 6, 19)
+    end_date_range: object = datetime(2023, 6, 22)
     # Use 'All' for training_title to search for every training.
-    training_title: str = 'Arkansas Computer Science and Computing Educator Academy'
+    training_title: str = 'Intermediate Python Programming - High School CS Professional Development'
 
     sheet_name: str = "Form Responses 1"
     input_spreadsheet_id: str = "10Gl4V7Xa1sx2jBDo0q5av9mow__XvAvxZ_LmhKwndzQ"
